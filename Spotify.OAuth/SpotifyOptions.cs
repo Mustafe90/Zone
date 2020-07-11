@@ -14,7 +14,7 @@ namespace Spotify.OAuth
         /// </summary>
         public SpotifyOptions()
         {
-            CallbackPath = new PathString("/signin-google");
+            CallbackPath = new PathString("/signin-spotify");
             AuthorizationEndpoint = SpotifyDefaults.AuthorizationEndpoint;
             TokenEndpoint = SpotifyDefaults.TokenEndpoint;
             UserInformationEndpoint = SpotifyDefaults.UserInformationEndpoint;
