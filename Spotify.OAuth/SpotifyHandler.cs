@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -59,6 +61,17 @@ namespace Spotify.OAuth
 
         protected override string BuildChallengeUrl(AuthenticationProperties properties, string redirectUri)
         {
+            var queryString = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+            queryString.Add(SpotifyChallengeProperties.ResponseTypeKey,SpotifyChallengeProperties.);
+            //Since we are storing the state in a cookie we can validate 
+            //we can authorize based on them, the auth server should send us equal
+            //state, thus we know it has been tempererd with if the user can't authenticate
+
+            var state = Options.StateDataFormat.Protect(properties);
+
+            queryString.Add(SpotifyChallengeProperties.StateKey,state);
+
             return base.BuildChallengeUrl(properties, redirectUri);
         }
     }

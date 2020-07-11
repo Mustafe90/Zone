@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.Extensions.Options;
 
 namespace Spotify.OAuth
 {
@@ -24,5 +25,11 @@ namespace Spotify.OAuth
             get => GetParameter<string>(ShowDialogKey);
             set => SetParameter(ShowDialogKey, value);
         }
+
+        public static readonly string ResponseTypeKey = "response_type";
+
+        public string ResponseType => "code";
+
+        public static readonly string StateKey = "state";
     }
 }

@@ -28,9 +28,5 @@ namespace Spotify.OAuth
 
             //Since I don't know what the claims are lets just loop through em when we get it back D:
         }
-        /// <summary>
-        /// access_type. Set to 'offline' to request a refresh token
-        /// </summary>
-        public string AccessType { get; set; }
     }
 }
