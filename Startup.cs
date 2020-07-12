@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Spotify.OAuth;
 
 namespace Zone
@@ -26,16 +29,34 @@ namespace Zone
         {
             services.AddControllersWithViews();
 
-            services.AddAuthentication()
+            services.AddAuthentication(option =>
+                    {
+                        option.DefaultAuthenticateScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                        option.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                        option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    })
+                .AddOpenIdConnect(options =>
+                {
+                    options.ClientId = "4c753863-092d-44d9-943c-9c27e28b5099";
+                    options.Authority = "https://login.microsoftonline.com/74c6bfb9-08e2-4a30-a7d1-a8ef361cd197";
+                    options.SignedOutRedirectUri = "/";
+                    options.CallbackPath = "/auth/signin-callback";
+                    options.ResponseType = OpenIdConnectResponseType.IdToken;
+                })
                 .AddSpotify(options =>
                 {
-                    options.CallbackPath = "/auth/signin-callback";
+                    options.CallbackPath = "/auth/spotify-callback";
                     options.ClientId = "943ddecea1524a8e8c632c8b588e7c5d";
                     options.ClientSecret = "72b649a893574643a7f5ac6b43275be7";
                     options.Scope.Add("user-library-read");
                     options.Scope.Add("user-top-read");
                     options.Scope.Add("user-read-recently-played");
                     options.Scope.Add("user-read-currently-playing");
+                })
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/auth/login";
+                    options.LogoutPath = "/auth/logout";
                 });
         }
 
@@ -57,6 +78,7 @@ namespace Zone
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
