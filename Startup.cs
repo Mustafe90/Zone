@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Spotify.OAuth;
 
 namespace Zone
 {
@@ -24,6 +25,18 @@ namespace Zone
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddAuthentication()
+                .AddSpotify(options =>
+                {
+                    options.CallbackPath = "/auth/signin-callback";
+                    options.ClientId = "943ddecea1524a8e8c632c8b588e7c5d";
+                    options.ClientSecret = "72b649a893574643a7f5ac6b43275be7";
+                    options.Scope.Add("user-library-read");
+                    options.Scope.Add("user-top-read");
+                    options.Scope.Add("user-read-recently-played");
+                    options.Scope.Add("user-read-currently-playing");
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
