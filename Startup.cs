@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Spotify.OAuth;
 using System;
+using System.Net.Http.Headers;
+using Zone.Services;
 
 namespace Zone
 {
@@ -24,13 +26,14 @@ namespace Zone
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
-            services.AddHttpClient("spotify", config =>
+            
+            //Utilises IHttpClientFactory to manage the life cycle of our http client
+            services.AddHttpClient<SpotifyHttpClientService>(client =>
             {
-                config.BaseAddress = new Uri("https://api.spotify.com/v1/me/");
-                config.Timeout = TimeSpan.FromSeconds(80);
-                config.DefaultRequestHeaders.Add("Accept", "application/json");
-                config.DefaultRequestHeaders.Add("Content-Type", "application/json");
+                client.Timeout = TimeSpan.FromSeconds(80);
+                client.BaseAddress = new Uri("https://api.spotify.com");
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             });
 
             services.AddAuthentication(option =>
