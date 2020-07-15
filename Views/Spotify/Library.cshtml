@@ -1,15 +1,14 @@
 ﻿@using Spotify.OAuth
 @{
-    ViewData["Title"] = "Home Page";
     var userImage = User.Claims.FirstOrDefault(x => x.Type == $"{SpotifyDefaults.Issuer}{SpotifyDefaults.ClaimType.ProfilePicture}");
-}
 
+}
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Library</h1>
 
     @if (User.Identity.IsAuthenticated)
     {
-        <p>Profile Picture data @userImage</p> 
+        <p>Profile Picture data @userImage</p>
 
         foreach (var userClaim in User.Claims)
         {

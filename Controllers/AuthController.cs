@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Spotify.OAuth;
 
 namespace Zone.Controllers
 {
+    [AllowAnonymous]
     public class AuthController : Controller
     {
         public async Task<IActionResult> Login(string returnUrl)
@@ -45,10 +47,5 @@ namespace Zone.Controllers
             }, SpotifyDefaults.AuthenticationScheme);
         }
 
-        [Route("/spotify-callback")]
-        public async Task<IActionResult> spotifyCallback(string returnUrl)
-        {
-            return null;
-        }
     }
 }

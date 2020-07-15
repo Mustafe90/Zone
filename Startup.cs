@@ -1,17 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Spotify.OAuth;
+using System;
 
 namespace Zone
 {
@@ -28,6 +24,14 @@ namespace Zone
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddHttpClient("spotify", config =>
+            {
+                config.BaseAddress = new Uri("https://api.spotify.com/v1/me/");
+                config.Timeout = TimeSpan.FromSeconds(80);
+                config.DefaultRequestHeaders.Add("Accept", "application/json");
+                config.DefaultRequestHeaders.Add("Content-Type", "application/json");
+            });
 
             services.AddAuthentication(option =>
                     {
@@ -52,6 +56,9 @@ namespace Zone
                     options.Scope.Add("user-top-read");
                     options.Scope.Add("user-read-recently-played");
                     options.Scope.Add("user-read-currently-playing");
+                    options.Scope.Add("user-read-email");
+                    options.Scope.Add("user-read-private");
+                    options.SaveTokens = true;
                 })
                 .AddCookie(options =>
                 {
