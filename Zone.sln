@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zone", "Zone.csproj", "{840
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotify.OAuth", "..\Spotify.OAuth\Spotify.OAuth.csproj", "{96827CAF-8FFE-4997-AB3E-23228F4AC6D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zone.Api", "..\Zone.Api\Zone.Api.csproj", "{BE6F8D23-FB3C-4AFC-BF14-9C0CAD2DDAC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{96827CAF-8FFE-4997-AB3E-23228F4AC6D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96827CAF-8FFE-4997-AB3E-23228F4AC6D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96827CAF-8FFE-4997-AB3E-23228F4AC6D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE6F8D23-FB3C-4AFC-BF14-9C0CAD2DDAC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE6F8D23-FB3C-4AFC-BF14-9C0CAD2DDAC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE6F8D23-FB3C-4AFC-BF14-9C0CAD2DDAC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE6F8D23-FB3C-4AFC-BF14-9C0CAD2DDAC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
