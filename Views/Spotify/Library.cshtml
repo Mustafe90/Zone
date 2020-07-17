@@ -1,4 +1,5 @@
 ﻿@using Spotify.OAuth
+@model AlbumPagination
 @{
     var userImage = User.Claims.FirstOrDefault(x => x.Type == $"{SpotifyDefaults.Issuer}{SpotifyDefaults.ClaimType.ProfilePicture}");
 
@@ -6,14 +7,20 @@
 <div class="text-center">
     <h1 class="display-4">Library</h1>
 
-    @if (User.Identity.IsAuthenticated)
-    {
-        <p>Profile Picture data @userImage</p>
 
-        foreach (var userClaim in User.Claims)
+    @foreach (var album in Model.Albums)
+    {
+        <a href="@album.Album.Uri">
+            <p>@album.Album.Name</p>
+            <img src="@album.Album.Images.First().Url" />
+        </a>
+
+        <p>Artists</p>
+
+        @foreach (var artist in album.Album.Artists)
         {
-            <p> @userClaim.Value </p>
-            <p> @userClaim.Type</p>
+            <a href="@artist.Uri"> <p>@artist.Name</p></a>
         }
+
     }
 </div>
