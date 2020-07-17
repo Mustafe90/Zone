@@ -27,9 +27,9 @@ namespace Zone.Controllers
             //If you have multiple authentication provider please remember to specify the authentication scheme T-T
             string accessToken = await HttpContext.GetTokenAsync(SpotifyDefaults.AuthenticationScheme,"access_token");
 
-            var albums = _spotifyHttpClientService.GetAlbums(accessToken);
+            var albums = await _spotifyHttpClientService.GetAlbums(accessToken);
 
-            return View();
+            return View(albums);
         }
     }
 
