@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Newtonsoft.Json
+@using Spotify.OAuth
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,6 +9,17 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
+@{
+    //Todo: Move this to a helper
+    var userImage = User.Claims.FirstOrDefault(x => x.Type == $"{SpotifyDefaults.Issuer}{SpotifyDefaults.ClaimType.ProfilePicture}");
+
+    List<Image> profileImage = null;
+
+    if (userImage != null)
+    {
+        profileImage = JsonConvert.DeserializeObject<List<Image>>(userImage.Value);
+    }
+}
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -29,6 +42,10 @@
                         </li>
                     </ul>
                 </div>
+                @if (profileImage != null && profileImage.Any())
+                {
+                    <img  class="rounded float-left"src="@profileImage.First().Url" alt="Profile Image" width="50" height="50"/>
+                }
             </div>
         </nav>
     </header>
