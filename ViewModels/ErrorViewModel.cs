@@ -1,6 +1,4 @@
-using System;
-
-namespace Zone.Models
+namespace Zone.ViewModels
 {
     public class ErrorViewModel
     {

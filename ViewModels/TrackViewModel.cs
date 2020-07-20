@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Zone.Models
+namespace Zone.ViewModels
 {
-    public class Track
+    public class TrackViewModel
     {
         public List<Artist> Artists { get; set; }
         public List<string> AvailableMarkets { get; set; }
@@ -12,7 +12,9 @@ namespace Zone.Models
         //Convert them to json = this on is explicit
         [JsonPropertyName("explicit")]
         public bool HasExplicitEnabled { get; set; }
-        public ExternalUrls ExternalUrls { get; set; }
+        public ExternalIdsViewModel ExternalIdsViewModel { get; set; }
+
+        public ExternalUrlsViewModel ExternalUrlsViewModel { get; set; }
         public string Href { get; set; }
         public string Id { get; set; }
         public bool IsLocal { get; set; }

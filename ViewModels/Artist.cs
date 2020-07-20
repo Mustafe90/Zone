@@ -1,8 +1,8 @@
-﻿namespace Zone.Models
+﻿namespace Zone.ViewModels
 {
     public class Artist
     {
-        public ExternalUrls ExternalUrls { get; set; }
+        public ExternalUrlsViewModel ExternalUrlsViewModel { get; set; }
         public string Href { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }
