@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Zone.Models;
+using Zone.ViewModels;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Zone.Services
 {
@@ -19,12 +19,10 @@ namespace Zone.Services
             _logger = logger;
         }
 
-        //Todo: Allow user to get next albums since this returns paginated list
-        public async Task<AlbumPagination> GetAlbums(string bearerToken)
+        public async Task<AlbumCollection> GetAlbums(string bearerToken)
         {
-            AlbumPagination data = new AlbumPagination();
+            var request = new HttpRequestMessage(HttpMethod.Get, $"/v1/me/albums");
 
-            var request = new HttpRequestMessage(HttpMethod.Get, "/v1/me/albums");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
 
             var response = await _client.SendAsync(request);
@@ -33,66 +31,72 @@ namespace Zone.Services
             {
                 _logger.LogError("Unable to retrieve user albums {0}, {1}", response.StatusCode, response.ReasonPhrase);
 
-                return data;
+                return default;
             };
-            //parse it 
+
             var content = await response.Content.ReadAsStringAsync();
 
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                _logger.LogInformation("Response content is empty");
+
+                return default;
+            }
+
             //Todo Write Custom converter    
-            data = JsonSerializer.Deserialize<AlbumPagination>(content, new JsonSerializerOptions
+            var model = JsonSerializer.Deserialize<AlbumCollection>(content, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
             });
 
-            return data;
+            if (model == null)
+            {
+                _logger.LogError($"Unable to cast json to object of type {nameof(AlbumCollection)}");
+
+                return default;
+            }
+
+            return model;
         }
 
-        public async Task<string> GetTracks(string bearerToken)
+        public async Task<RecentlyPlayedViewModel> GetRecentlyPlayedTracks(string bearerToken)
         {
-            var data = string.Empty;
 
-            var request = new HttpRequestMessage(HttpMethod.Get, "v1/tracks");
+            var request = new HttpRequestMessage(HttpMethod.Get, "/v1/me/player/recently-played");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
 
             var response = await _client.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogError("Unable to get user tracks");
-                return data;
-            }
-
-            //process the data
-            data = await response.Content.ReadAsStringAsync();
-
-            return data;
-        }
-
-        public async Task<string> RecentlyPlayedTracks(string bearerToken)
-        {
-            var data = string.Empty;
-
-            var request = new HttpRequestMessage(HttpMethod.Get, "/v1/me/player/recently-played");
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer",bearerToken);
-
-            var response =  await _client.SendAsync(request);
-
-            if (!response.IsSuccessStatusCode)
-            {
                 _logger.LogError("Unable to retrieve recently played tracks");
-                return data;
+
+                return default;
             }
 
-            data = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync();
 
-            //parse it
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                _logger.LogInformation("Response content is empty");
 
-            return data;
+                return default;
+            }
+
+            var model = JsonSerializer.Deserialize<RecentlyPlayedViewModel>(content);
+
+            if (model == null)
+            {
+                _logger.LogError($"Unable to convert json to type {nameof(RecentlyPlayedViewModel)}");
+
+                return default;
+            }
+
+            return model;
         }
 
-        public async Task<string> CurrentlyPlayingTrack(string bearerToken)
+        public async Task<CurrentlyPlayingViewModel> GetCurrentlyPlayingTrack(string bearerToken)
         {
-            var data = string.Empty;
 
             var request = new HttpRequestMessage(HttpMethod.Get, "v1/me/player/currently-playing");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
@@ -102,14 +106,29 @@ namespace Zone.Services
             if (!response.IsSuccessStatusCode)
             {
                 _logger.LogError("Unable to retrieve user currently playing tracks");
-                return data;
+
+                return default;
             }
 
-            data = await response.Content.ReadAsStringAsync();
+            var stringContent = await response.Content.ReadAsStringAsync();
 
-            //Parse the data
+            if (string.IsNullOrWhiteSpace(stringContent))
+            {
+                _logger.LogInformation("Response is empty");
 
-            return data;
+                return default;
+            }
+
+            var model = JsonSerializer.Deserialize<CurrentlyPlayingViewModel>(stringContent);
+
+            if (model == null)
+            {
+                _logger.LogInformation($"Unable to deserialize json to type {nameof(CurrentlyPlayingViewModel)} : Json Payload:  {stringContent}");
+
+                return default;
+            }
+
+            return model;
         }
     }
 }
