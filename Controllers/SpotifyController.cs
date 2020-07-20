@@ -29,6 +29,10 @@ namespace Zone.Controllers
 
             var albums = await _spotifyHttpClientService.GetAlbums(accessToken);
 
+            var recentTracks = await _spotifyHttpClientService.GetRecentlyPlayedTracks(accessToken);
+
+            var currentlyPlayingTracks = await _spotifyHttpClientService.GetCurrentlyPlayingTrack(accessToken);
+
             return View(albums);
         }
     }
