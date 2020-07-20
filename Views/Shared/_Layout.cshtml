@@ -1,5 +1,6 @@
 ﻿@using Newtonsoft.Json
 @using Spotify.OAuth
+@using Zone.ViewModels
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,11 +14,11 @@
     //Todo: Move this to a helper
     var userImage = User.Claims.FirstOrDefault(x => x.Type == $"{SpotifyDefaults.Issuer}{SpotifyDefaults.ClaimType.ProfilePicture}");
 
-    List<Image> profileImage = null;
+    List<ImageViewModel> profileImage = null;
 
     if (userImage != null)
     {
-        profileImage = JsonConvert.DeserializeObject<List<Image>>(userImage.Value);
+        profileImage = JsonConvert.DeserializeObject<List<ImageViewModel>>(userImage.Value);
     }
 }
 <body>
@@ -44,7 +45,7 @@
                 </div>
                 @if (profileImage != null && profileImage.Any())
                 {
-                    <img  class="rounded float-left"src="@profileImage.First().Url" alt="Profile Image" width="50" height="50"/>
+                    <img  class="rounded float-left"src="@profileImage.First().Url" alt="Profile ImageViewModel" width="50" height="50"/>
                 }
             </div>
         </nav>

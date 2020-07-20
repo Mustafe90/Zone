@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
-using Zone.Models;
+using Zone.ViewModels;
 
 namespace Zone.Controllers
 {
