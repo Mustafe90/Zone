@@ -83,7 +83,10 @@ namespace Zone.Services
                 return default;
             }
 
-            var model = JsonSerializer.Deserialize<RecentlyPlayedViewModel>(content);
+            var model = JsonSerializer.Deserialize<RecentlyPlayedViewModel>(content, new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true
+            });
 
             if (model == null)
             {
@@ -119,7 +122,10 @@ namespace Zone.Services
                 return default;
             }
 
-            var model = JsonSerializer.Deserialize<CurrentlyPlayingViewModel>(stringContent);
+            var model = JsonSerializer.Deserialize<CurrentlyPlayingViewModel>(stringContent, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
 
             if (model == null)
             {
