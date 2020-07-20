@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Zone.ViewModels
 {
     public class RecentlyPlayedViewModel
     {
-        [JsonProperty(PropertyName = "items")]
+        [JsonPropertyName("items")]
         public List<RecentlyPlayedTrackViewModel> RecentlyPlayedTracks { get; set; }
         public string Next { get; set; }
         public CursorsViewModel Cursors { get; set; }

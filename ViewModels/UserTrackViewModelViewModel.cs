@@ -8,7 +8,7 @@ namespace Zone.ViewModels
 {
     public class UserTrackViewModelViewModel : TrackViewModel
     {
-        public BasicAlbum Album { get; set; }
+        public BasicAlbumViewModel Album { get; set; }
 
         public int Popularity { get; set; }
 

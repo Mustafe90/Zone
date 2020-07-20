@@ -1,6 +1,6 @@
 ﻿namespace Zone.ViewModels
 {
-    public class Actions
+    public class ActionsViewModel
     {
         public DisallowsViewModel DisallowsViewModel { get; set; }
     }
