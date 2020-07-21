@@ -1,21 +1,105 @@
-﻿@using Spotify.OAuth
-@model Zone.ViewModels.AlbumCollection
+﻿@using System.Collections
+@using Spotify.OAuth
+@using Zone.ViewModels
+@model Tuple<Zone.ViewModels.AlbumCollection, Zone.ViewModels.RecentlyPlayedViewModel, Zone.ViewModels.CurrentlyPlayingViewModel>
 
+@{
+    var (albumContainer, recentPlays, currentlyPlaying) = Model;
+
+    var uniqueRecentlyPlayed = recentPlays?.RecentlyPlayedTracks.Distinct(new CompareTracks()).ToList() ?? new List<RecentlyPlayedTrackViewModel>();
+
+}
 <div class="container">
-    <h5>Albums</h5>
+
+    <h3>Currently Playing</h3>
+
     <div class="card-deck">
-        @foreach (var album in Model.Albums)
+
+        @if (currentlyPlaying != null)
         {
-            <div class="card bg-white border-0" style="width: 5px;">
+            var classPlaying = currentlyPlaying.IsPlaying ? "bg-success" : "bg-white";
+
+
+            <div class="card @classPlaying border-0" style="min-width: 340px; max-width: 340px;">
+                <img src="@currentlyPlaying.Track.Album.Images.First().Url" class="card-img-top" alt="@currentlyPlaying.Track.Album.Name">
+                <div class="card-body">
+                    <a href="@currentlyPlaying.Track.Uri">
+                        <h5 class="card-title">@currentlyPlaying.Track.Album.Name</h5>
+                    </a>
+                    <h5 class="card-text">@currentlyPlaying.Track.Name</h5>
+                    <p class="card-text">@currentlyPlaying.Track.Album.Type.ToUpper()</p>
+                    <p class="card-text">Release Date: @currentlyPlaying.Track.Album.ReleaseDate</p>
+                    <p class="card-text">You played this @currentlyPlaying.Track.Type at: @currentlyPlaying.Timestamp</p>
+                </div>
+                <div class="card-footer bg-white">
+                    <small class="text-muted">@string.Join(" | ", currentlyPlaying.Track.Album.Artists.Select(x => x.Name))</small>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div class="card bg-white border-0" style="min-width: 340px; max-width: 340px;">
+
+                <div class="card-body">
+                    <h5 class="card-title">There is no currently playing songs</h5>
+                    <p class="card-text">Play a song or two then see what happens</p>
+                </div>
+                <div class="card-footer bg-white">
+                    <small class="text-muted">Yup try mate</small>
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <h5>Recently Played</h5>
+
+    <div class="card-deck">
+        @foreach (var tracks in uniqueRecentlyPlayed)
+        {
+
+            <div class="card bg-white border-0" style="min-width: 340px; max-width: 340px;">
+                <img src="@tracks.Track.Album.Images.First().Url" class="card-img-top" alt="@tracks.Track.Album.Name">
+                <div class="card-body">
+
+                    <a href="@tracks.Track.Uri">
+                        <h5 class="card-title">@tracks.Track.Album.Name</h5>
+                    </a>
+                    <h5 class="card-text">@tracks.Track.Name</h5>
+                    <p class="card-text">@tracks.Track.Album.Type.ToUpper()</p>
+                    <p class="card-text">Release Date: @tracks.Track.Album.ReleaseDate</p>
+                    <p class="card-text">You played this @tracks.Track.Type at: @tracks.PlayedAt</p>
+                </div>
+                <div class="card-footer bg-white">
+                    <small class="text-muted">@string.Join(" | ", tracks.Track.Album.Artists.Select(x => x.Name))</small>
+                </div>
+            </div>
+
+        }
+    </div>
+
+    <h5>Albums</h5>
+
+    <div class="card-deck">
+        @foreach (var album in albumContainer.Albums)
+        {
+
+            <div class="card bg-white border-0" style="min-width: 340px; max-width: 340px;">
                 <img src="@album.Album.Images.First().Url" class="card-img-top" alt="@album.Album.Name">
                 <div class="card-body">
-                    <h5 class="card-title">@album.Album.Name</h5>
-                    <p class="card-text">Release Date: [DEFAULT TEXT]</p>
+                    <a href="@album.Album.Uri">
+                        <h5 class="card-title">@album.Album.Name</h5>
+                    </a>
+                    <p class="card-text">Release Date: @album.Album.ReleaseDate</p>
+                    <p class="card-text">You Added this album on: @album.AddedAt</p>
+                    <p class="card-text">@album.Album.AlbumType.</p>
                 </div>
                 <div class="card-footer bg-white">
                     <small class="text-muted">@string.Join(" | ", album.Album.Artists.Select(x => x.Name))</small>
                 </div>
             </div>
+
         }
     </div>
 </div>

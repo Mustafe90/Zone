@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Spotify.OAuth;
 using Zone.Services;
+using Zone.ViewModels;
 
 namespace Zone.Controllers
 {
@@ -33,7 +34,9 @@ namespace Zone.Controllers
 
             var currentlyPlayingTracks = await _spotifyHttpClientService.GetCurrentlyPlayingTrack(accessToken);
 
-            return View(albums);
+            var tuple = new Tuple<AlbumCollection,RecentlyPlayedViewModel,CurrentlyPlayingViewModel>(albums,recentTracks,currentlyPlayingTracks);
+
+            return View(tuple);
         }
     }
 
