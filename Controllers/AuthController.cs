@@ -15,15 +15,8 @@ namespace Zone.Controllers
     [AllowAnonymous]
     public class AuthController : Controller
     {
-        public async Task<IActionResult> Login(string returnUrl)
+        public IActionResult Login(string returnUrl)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                var x = User.Identity.Name;
-            }
-
-            var p = User.Identity.Name;
-
             return Challenge(new AuthenticationProperties
             {
                 RedirectUri = returnUrl
@@ -39,7 +32,7 @@ namespace Zone.Controllers
             }
         }
 
-        public async Task<IActionResult> Spotify(string returnUrl)
+        public IActionResult Spotify(string returnUrl)
         {
             return Challenge(new AuthenticationProperties
             {
