@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Zone.ViewModels
@@ -9,5 +10,21 @@ namespace Zone.ViewModels
         [JsonPropertyName("played_at")]
         public DateTime PlayedAt { get; set; }
         public ContextViewModel Context { get; set; }
+    }
+    public class CompareTracks : IEqualityComparer<RecentlyPlayedTrackViewModel>
+    {
+        public bool Equals(RecentlyPlayedTrackViewModel x, RecentlyPlayedTrackViewModel y)
+        {
+            if (x == null || y == null)
+            {
+                return false;
+            }
+            return x.Track == y.Track;
+        }
+
+        public int GetHashCode(RecentlyPlayedTrackViewModel obj)
+        {
+            return obj.Track.GetHashCode();
+        }
     }
 }

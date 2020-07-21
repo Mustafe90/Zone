@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace Zone.ViewModels
 {
-    public class TrackViewModel
+    public class TrackViewModel 
     {
         public List<ArtistViewModel> Artists { get; set; }
 
@@ -44,6 +46,27 @@ namespace Zone.ViewModels
         public int TrackNumber { get; set; }
         public string Type { get; set; }
         public string Uri { get; set; }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
+
+        public static bool operator ==(TrackViewModel trackX, TrackViewModel trackY)
+        {
+            if (trackX.Id == trackY.Id)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool operator !=(TrackViewModel trackX, TrackViewModel trackY)
+        {
+            return !(trackX == trackY);
+        }
 
     }
 }
