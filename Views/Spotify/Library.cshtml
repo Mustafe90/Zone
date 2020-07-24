@@ -1,4 +1,7 @@
 ﻿@using System.Collections
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@using System.Web
 @using Spotify.OAuth
 @using Zone.ViewModels
 @model Tuple<Zone.ViewModels.AlbumCollection, Zone.ViewModels.RecentlyPlayedViewModel, Zone.ViewModels.CurrentlyPlayingViewModel>
@@ -19,23 +22,26 @@
         {
             var classPlaying = currentlyPlaying.IsPlaying ? "bg-success" : "bg-white";
 
-
-            <div class="card @classPlaying border-0" style="min-width: 340px; max-width: 340px;">
-                <img src="@currentlyPlaying.Track.Album.Images.First().Url" class="card-img-top" alt="@currentlyPlaying.Track.Album.Name">
-                <div class="card-body">
-                    <a href="@currentlyPlaying.Track.Uri">
-                        <h5 class="card-title">@currentlyPlaying.Track.Album.Name</h5>
-                    </a>
-                    <h5 class="card-text">@currentlyPlaying.Track.Name</h5>
-                    <p class="card-text">@currentlyPlaying.Track.Album.Type.ToUpper()</p>
-                    <p class="card-text">Release Date: @currentlyPlaying.Track.Album.ReleaseDate</p>
-                    <p class="card-text">You played this @currentlyPlaying.Track.Type at: @currentlyPlaying.Timestamp</p>
+            <form asp-action="Share" asp-controller="Spotify" method="post">
+               <input name="TrackId" type="hidden" asp-for="Item3.Track.Id"/>
+                <div class="card @classPlaying border-0" style="min-width: 340px; max-width: 340px;">
+                    <img src="@currentlyPlaying.Track.Album.Images.First().Url" class="card-img-top" alt="@currentlyPlaying.Track.Album.Name">
+                    <div class="card-body">
+                        <a href="@currentlyPlaying.Track.Uri">
+                            <h5 class="card-title">@currentlyPlaying.Track.Album.Name</h5>
+                        </a>
+                        <h5 class="card-text">@currentlyPlaying.Track.Name</h5>
+                        <p class="card-text">@currentlyPlaying.Track.Album.Type.ToUpper()</p>
+                        <p class="card-text">Release Date: @currentlyPlaying.Track.Album.ReleaseDate</p>
+                        <p class="card-text">You played this @currentlyPlaying.Track.Type at: @currentlyPlaying.Timestamp</p>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <small class="text-muted">@string.Join(" | ", currentlyPlaying.Track.Album.Artists.Select(x => x.Name))</small>
+                    </div>
+                    <input name="Selected" type="checkbox" checked="yep"/>
                 </div>
-                <div class="card-footer bg-white">
-                    <small class="text-muted">@string.Join(" | ", currentlyPlaying.Track.Album.Artists.Select(x => x.Name))</small>
-                </div>
-            </div>
-
+                <button type="submit">test</button>
+            </form>
         }
         else
         {

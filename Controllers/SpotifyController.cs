@@ -38,6 +38,15 @@ namespace Zone.Controllers
 
             return View(tuple);
         }
+        [HttpPost]
+        public IActionResult Share([FromForm] string data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
+            return null;
+        }
     }
 
 }
