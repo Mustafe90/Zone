@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Spotify.OAuth\Spotify.OAuth.csproj" />
+    <ProjectReference Include="..\Zone.Core\Zone.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
