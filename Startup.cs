@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Spotify.OAuth;
 using System;
 using System.Net.Http.Headers;
+using Zone.Domain;
 using Zone.Services;
 
 namespace Zone
@@ -27,6 +28,7 @@ namespace Zone
         {
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
+            services.AddTransient<SpotifyClientDomain>(); 
             
             //Utilises IHttpClientFactory to manage the life cycle of our http client
             services.AddHttpClient<SpotifyHttpClientService>(client =>
