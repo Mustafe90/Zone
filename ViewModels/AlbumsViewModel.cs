@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace Zone.ViewModels
 {
-    public class RecentlyPlayedViewModel
+    public class AlbumsViewModel
     {
         public string Href { get; set; }
+
+        public IEnumerable<AlbumViewModel> Album { get; set; } = new List<AlbumViewModel>();
+
         public int Limit { get; set; }
-        private List<RecentlyPlayedTrackViewModel> RecentlyPlayedTracks { get; set; } = new List<RecentlyPlayedTrackViewModel>();
-        public string Next { get; set; }
+
+        public object Next { get; set; }
+
+        public int Offset { get; set; }
     }
 }
