@@ -10,7 +10,7 @@ namespace Zone.ViewModels
     {
         public string Href { get; set; }
 
-        public IEnumerable<AlbumViewModel> Album { get; set; } = new List<AlbumViewModel>();
+        public List<AlbumViewModel> Album { get; set; } = new List<AlbumViewModel>();
 
         public int Limit { get; set; }
 

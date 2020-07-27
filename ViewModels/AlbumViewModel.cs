@@ -17,11 +17,16 @@ namespace Zone.ViewModels
 
         public string Name { get; set; }
 
+        public string Id { get; set; }
+
+
         public string ReleaseDate { get; set; }
         public string AlbumType { get; set; }
         public IEnumerable<ArtistViewModel> Artists { get; set; }
 
         public string Uri { get; set; }
+
+        public bool Shared { get; set; }
 
 
     }

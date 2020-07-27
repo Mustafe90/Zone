@@ -23,6 +23,8 @@ namespace Zone.ViewModels
 
         public Image Image { get; set; }
 
+        public bool Shared { get; set; }
+
         public override int GetHashCode()
         {
             return Id.GetHashCode();

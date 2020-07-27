@@ -9,6 +9,6 @@ namespace Zone.ViewModels
     public class TracksViewModel
     {
         public string Href { get; set; }
-        public IEnumerable<TrackViewModel> SongsList { get; set; } = new List<TrackViewModel>();
+        public List<TrackViewModel> SongsList { get; set; } = new List<TrackViewModel>();
     }
 }
