@@ -26,6 +26,7 @@ namespace Zone
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddHttpContextAccessor();
             
             //Utilises IHttpClientFactory to manage the life cycle of our http client
             services.AddHttpClient<SpotifyHttpClientService>(client =>
