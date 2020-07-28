@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Spotify.OAuth;
 using System;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http;
 using Zone.Domain;
 using Zone.Services;
 
@@ -70,6 +71,8 @@ namespace Zone
                 {
                     options.LoginPath = "/auth/login";
                     options.LogoutPath = "/auth/logout";
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+               
                 });
         }
 
