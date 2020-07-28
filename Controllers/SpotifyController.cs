@@ -28,7 +28,7 @@ namespace Zone.Controllers
             return View(albums);
         }
         [HttpPost]
-        public IActionResult Share([FromForm] List<AlbumViewModel> album)
+        public IActionResult Share([FromForm] IEnumerable<ShareAlbum> album)
         {
             if (!ModelState.IsValid)
             {

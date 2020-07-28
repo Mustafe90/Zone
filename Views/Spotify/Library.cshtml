@@ -99,20 +99,29 @@
                     <!--Todo: Make this a partial-->
                     @if (Model.Album[i].AlbumType.ToLower() == "album")
                     {
-                        <div class="btn-outline-primary mb-5" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        <div class="btn-outline-primary mb-5" data-toggle="collapse" data-target="#collapse_@i" aria-expanded="false" aria-controls="collapse_@i">
                             Tracks
+                        </div>
+
+                        <div class="mb-3">
+                            <p> Share Album</p>
+
+                            <input type="checkbox" data-toggle="toggle" data-on="Album" data-off="Album" data-onstyle="success" data-offstyle="danger" data-width="100" data-height="5"
+                                   asp-for="@Model.Album[i].Shared" />
+
+                            <div class="border-dark border mt-5"></div>
                         </div>
                         @for (int j = 0; j < Model.Album[i].Tracks.SongsList.Count; j++)
                         {
                             var first = j == 0 ? "show" : "";
 
-                            <div class="collapse border-bottom" id="collapseExample">
-                                <input type="hidden" asp-for="@Model.Album[i].Tracks.SongsList[j].Id" />
+                            <div class="collapse border-bottom" id="collapse_@i">
+                                <input name="album[@i].Tracks[@j].Id" type="hidden" value="@Model.Album[i].Tracks.SongsList[j].Id" />
 
                                 <a class="position-absolute" href="@Model.Album[i].Tracks.SongsList[j].Uri">@Model.Album[i].Tracks.SongsList[j].Name </a>
                                 <div class="d-flex justify-content-end">
-                                    <input type="checkbox" data-toggle="toggle" data-on="Share" data-off="UnShare" data-onstyle="success" data-offstyle="danger" data-width="100" data-height="5"
-                                           asp-for="@Model.Album[i].Tracks.SongsList[j].Shared" />
+                                    <input name="album[@i].Tracks[@j].Shared" type="checkbox" data-toggle="toggle" data-on="Share" data-off="track" data-onstyle="success" data-offstyle="danger" data-width="100" data-height="5"
+                                          asp-for="@Model.Album[i].Tracks.SongsList[j].Shared"  />
                                 </div>
                             </div>
 
@@ -120,25 +129,26 @@
                     }
                 </div>
             </div>
+            <button class="btn btn-dark btn-block" type="submit">Share</button>
 
             @*<div class="card bg-white border-0" style="min-width: 340px; max-width: 340px;">
 
-                    <img src="@Model.Album[i].Image.Url" class="card-img-top" alt="@Model.Album[i].Name">
-                    <div class="card-body">
-                        <a href="@Model.Album[i].Uri">
-                            <h5 class="card-title">@Model.Album[i].Name</h5>
-                        </a>
-                        <p class="card-text">Release Date: @Model.Album[i].ReleaseDate</p>
-                        <p class="card-text">You Added this album on: @Model.Album[i].AddedAt</p>
-                        <p class="card-text">@Model.Album[i].AlbumType.</p>
+                <img src="@Model.Album[i].Image.Url" class="card-img-top" alt="@Model.Album[i].Name">
+                <div class="card-body">
+                    <a href="@Model.Album[i].Uri">
+                        <h5 class="card-title">@Model.Album[i].Name</h5>
+                    </a>
+                    <p class="card-text">Release Date: @Model.Album[i].ReleaseDate</p>
+                    <p class="card-text">You Added this album on: @Model.Album[i].AddedAt</p>
+                    <p class="card-text">@Model.Album[i].AlbumType.</p>
 
-                    </div>
-                    <div class="card-footer bg-white">
-                        <small class="text-muted">@string.Join(" | ", Model.Album[i].Artists.Select(x => x.Name))</small>
-                        <input type="checkbox" asp-for="@Model.Album[i].Shared" />
-                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <small class="text-muted">@string.Join(" | ", Model.Album[i].Artists.Select(x => x.Name))</small>
+                    <input type="checkbox" asp-for="@Model.Album[i].Shared" />
+                </div>
 
-                </div>*@
+            </div>*@
 
         }
     </form>
